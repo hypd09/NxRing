@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias keyUser
+            keyPassword keyUserPassword
+            storeFile file('E:/Dropbox/keyring.jks')
+            storePassword storeKeyPassword
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
     defaultConfig {
         applicationId "hypd.nxring"
         minSdkVersion 15
@@ -12,16 +19,30 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix '.DEBUG'
+            versionNameSuffix 'DEBUG'
+        }
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+//    for ButterKnife, idk why, they said do it so I did it
+    lintOptions {
+        disable 'InvalidPackage'
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:cardview-v7:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
 }
